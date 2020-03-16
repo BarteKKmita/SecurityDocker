@@ -1,0 +1,47 @@
+package com.learning.securitydocker.security.configuration;
+
+import com.learning.securitydocker.user.DummyUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.stream.Collectors;
+
+@Configuration
+@EnableWebSecurity
+public class Config extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private DummyUserRepository repository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/**").hasAuthority("WRITE")
+                .and()
+                .httpBasic();
+    }
+
+    @Override
+    @Bean
+    protected UserDetailsService userDetailsService(){
+        return new InMemoryUserDetailsManager(repository.getUsers().stream()
+                .map(userEntity -> User.builder()
+                        .username(userEntity.getName() + " " + userEntity.getSurname())
+                        .password(passwordEncoder.encode(String.valueOf(userEntity.getPassword())))
+                        .authorities(userEntity.getRole().getRolePermissions())
+                        .build())
+                .collect(Collectors.toList()));
+    }
+}
