@@ -1,5 +1,6 @@
 package com.learning.securitydocker.user;
 
+import com.learning.securitydocker.security.roles.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserEntity {
     private String name;
+
     private String surname;
+
     private char[] password;
+
+    private Role role;
 }
