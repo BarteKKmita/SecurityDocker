@@ -1,5 +1,6 @@
 package com.learning.securitydocker.user;
 
+import com.learning.securitydocker.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,6 +30,6 @@ public class DummyUserRepository {
     UserEntity getUserByName(String username){
         return USER_ENTITIES.stream()
                 .filter(userEntity -> username.equals(userEntity.getName()))
-                .findFirst().orElseThrow();
+                .findFirst().orElseThrow(() -> new UserNotFoundException("Specified user doest not exists"));
     }
 }
