@@ -29,8 +29,15 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasAuthority("WRITE")
+                .anyRequest()
+                .authenticated()
                 .and()
-                .httpBasic();
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/login-success", true)
+                .failureUrl("/login-failure")
+                .passwordParameter("password")
+                .usernameParameter("username");
     }
 
     @Override
