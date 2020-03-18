@@ -1,27 +1,21 @@
 package com.learning.securitydocker.security.configuration;
 
-import com.learning.securitydocker.user.DummyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
 public class Config extends WebSecurityConfigurerAdapter {
+
     @Autowired
-    private DummyUserRepository repository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Qualifier("FromDatabase")
+    private UserDetailsService userEntityService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -44,14 +38,7 @@ public class Config extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Bean
-    protected UserDetailsService userDetailsService(){
-        return new InMemoryUserDetailsManager(repository.getUsers().stream()
-                .map(userEntity -> User.builder()
-                        .username(userEntity.getName() + " " + userEntity.getSurname())
-                        .password(passwordEncoder.encode(String.valueOf(userEntity.getPassword())))
-                        .authorities(userEntity.getRole().getRolePermissions())
-                        .build())
-                .collect(Collectors.toList()));
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userEntityService);
     }
 }
