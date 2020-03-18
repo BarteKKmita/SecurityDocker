@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "user")
-class UserEntity {
+public class UserEntity {
 
     @Id
     @Column(name = "userName")
