@@ -10,22 +10,22 @@ import static com.learning.securitydocker.security.roles.Role.USER;
 
 @Repository("Dummy")
 public class DummyUserRepository {
-    private static final List<UserEntity> USER_ENTITIES = initUsers();
+    private static final List<DummyUser> USER_ENTITIES = initUsers();
 
-    public static List<UserEntity> initUsers(){
-        return List.of(new UserEntity("James", "Bond",
+    public static List<DummyUser> initUsers(){
+        return List.of(new DummyUser("James", "Bond",
                         new char[]{'G', 'o', 'l', 'd', 'e', 'n', 'E', 'y', 'e'}, ADMIN),
-                new UserEntity("Leonardo", "DiCaprio",
+                new DummyUser("Leonardo", "DiCaprio",
                         new char[]{'I', 'n', 'c', 'e', 'p', 't', 'i', 'o', 'n'}, USER),
-                new UserEntity("Sophie", "Marceau",
+                new DummyUser("Sophie", "Marceau",
                         new char[]{'T', 'o', 'm', 'o', 'r', 'r', 'o', 'w', 'N', 'e', 'v', 'e', 'r', 'D', 'i', 'e', 's'},
                         ADMIN));
     }
 
-    public List<UserEntity> getUsers(){
+    public List<DummyUser> getUsers(){
         return USER_ENTITIES;
     }
-    UserEntity getUserByName(String username){
+    DummyUser getUserByName(String username){
         return USER_ENTITIES.stream()
                 .filter(userEntity -> username.equals(userEntity.getName()))
                 .findFirst().orElseThrow(() -> new UserNotFoundException("Specified user doest not exists"));

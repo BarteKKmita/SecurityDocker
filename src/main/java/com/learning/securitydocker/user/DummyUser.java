@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class UserEntity {
+public class DummyUser {
     private String name;
 
     private String surname;
