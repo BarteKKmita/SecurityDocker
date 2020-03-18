@@ -25,8 +25,6 @@ public class DummyUserRepository {
     public List<UserEntity> getUsers(){
         return USER_ENTITIES;
     }
-
-    //TODO: custom exceptions
     UserEntity getUserByName(String username){
         return USER_ENTITIES.stream()
                 .filter(userEntity -> username.equals(userEntity.getName()))
