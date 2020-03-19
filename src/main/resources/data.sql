@@ -20,8 +20,3 @@ INSERT INTO User VALUES
 
 INSERT INTO User VALUES
     ('Sophie Marceau', 'Sophie', 'Marceau','$2a$10$/NXDaALRD5iqE3YcvFybmekxij0ZUbm7xJLKt.ROVonZ4RzAKBYbK','USER', FALSE, FALSE, FALSE, FALSE);
-
-
-
-
---(id, userName, name, surname, password,role)
