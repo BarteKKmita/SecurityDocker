@@ -49,7 +49,7 @@ public class Config extends WebSecurityConfigurerAdapter {
         return new InMemoryUserDetailsManager(repository.getUsers().stream()
                 .map(userEntity -> User.builder()
                         .username(userEntity.getName() + " " + userEntity.getSurname())
-                        .password(passwordEncoder.encode(String.valueOf(userEntity.getPassword())))
+                        .password(userEntity.getPassword())
                         .authorities(userEntity.getRole().getRolePermissions())
                         .build())
                 .collect(Collectors.toList()));

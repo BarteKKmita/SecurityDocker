@@ -14,17 +14,18 @@ public class DummyUserRepository {
 
     public static List<UserEntity> initUsers(){
         return List.of(new UserEntity("James", "Bond",
-                        new char[]{'G', 'o', 'l', 'd', 'e', 'n', 'E', 'y', 'e'}, ADMIN),
+                        "$2a$10$A8CVfxOGzPO4.hv7o20NTOSeKKIpwfJUrQuQT/6GiR0Zi9HQSwNPu", ADMIN),
                 new UserEntity("Leonardo", "DiCaprio",
-                        new char[]{'I', 'n', 'c', 'e', 'p', 't', 'i', 'o', 'n'}, USER),
+                        "$2a$10$AgwzVwKy1uT2xwCEYB.5u.swT3bAjkH.AvAyw0mVUGSwG8XQhHeUW", USER),
                 new UserEntity("Sophie", "Marceau",
-                        new char[]{'T', 'o', 'm', 'o', 'r', 'r', 'o', 'w', 'N', 'e', 'v', 'e', 'r', 'D', 'i', 'e', 's'},
+                        "$2a$10$/NXDaALRD5iqE3YcvFybmekxij0ZUbm7xJLKt.ROVonZ4RzAKBYbK",
                         ADMIN));
     }
 
     public List<UserEntity> getUsers(){
         return USER_ENTITIES;
     }
+
     UserEntity getUserByName(String username){
         return USER_ENTITIES.stream()
                 .filter(userEntity -> username.equals(userEntity.getName()))
