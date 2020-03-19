@@ -1,5 +1,6 @@
 package com.learning.securitydocker.security.configuration;
 
+import com.learning.securitydocker.jwtauth.JwtUserCredentialsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
@@ -23,18 +25,14 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 //.and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//To sprawia że sesja nie jest przechowywana w bazie(w tym przypadku emmbeded springa)
+                .and()
+                .addFilter(new JwtUserCredentialsFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasAuthority("WRITE")
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/login-success", true)
-                .failureUrl("/login-failure")
-                .passwordParameter("password")
-                .usernameParameter("username");
+                .authenticated();
     }
 
     @Override
