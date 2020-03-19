@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class TemplateController {
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login(){
         return "login";
     }
 
-    @GetMapping("/login-success")
+    @GetMapping("login-success")
     public String loginSuccess(){
         return "logged in";
     }
 
-    @GetMapping("/login-failure")
+    @GetMapping("login-failure")
     public String loginFailure(){
         return "login failure";
     }

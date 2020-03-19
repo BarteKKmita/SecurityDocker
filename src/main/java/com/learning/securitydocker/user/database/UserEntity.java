@@ -27,7 +27,7 @@ public class UserEntity {
     private String surname;
 
     @Column(name = "password")
-    private char[] password;
+    private String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
