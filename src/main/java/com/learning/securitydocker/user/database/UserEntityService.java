@@ -26,7 +26,7 @@ public class UserEntityService implements UserDetailsService {
     private UserDetails getUserDetails(UserEntity userEntity){
         return User.builder()
                 .username(userEntity.getUserName())
-                .password(passwordEncoder.encode(String.valueOf(userEntity.getPassword())))
+                .password(userEntity.getPassword())
                 .authorities(userEntity.getRole().getRolePermissions())
                 .accountExpired(userEntity.isAccountExpired())
                 .accountLocked(userEntity.isAccountLocked())
