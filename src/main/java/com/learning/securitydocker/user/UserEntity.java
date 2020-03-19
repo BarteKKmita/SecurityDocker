@@ -13,7 +13,7 @@ public class UserEntity {
 
     private String surname;
 
-    private char[] password;
+    private String password;
 
     private Role role;
 }
